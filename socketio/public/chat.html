@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h2>Chat</h2>
+  <form id="message-form" style="display: flex">
+    <div style="margin-right: 20px">
+      <input id="chat-input" type="text" placeholder="Please type some message" style="width: 300px"/>
+    </div>
+    <div>
+      <input type="submit" value="Send!">
+    </div>
+  </form>
+
+  <ul id="message-box">
+
+  </ul>
+  
+  <!-- socket.io.js is added by the socketio server -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io('http://localhost:8001')
+    socket.on('connect', ()=>{
+      console.log(socket.id)
+      socket.emit('msgFromClient', {data: "Its the msg from client"})
+    })
+    socket.on('msgFromServer', (data)=>{
+      console.log('Data:', data)
+    })
+    socket.io.on('reconnect', (data)=>{
+      console.log('reconnect event:', data)
+    })
+    socket.on('msgToClient', (msg)=>{
+      document.querySelector('#message-box').innerHTML += `<li>${msg.text}</li>`
+    })
+
+    document.querySelector('#message-form').addEventListener('submit', (event)=>{
+      event.preventDefault();
+      const newMsg = document.getElementById('chat-input').value
+      console.log(newMsg)
+      socket.emit('newMsgToServer', {text: newMsg})
+    })
+  </script>
+</body>
+</html>
