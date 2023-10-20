@@ -15,12 +15,13 @@
     const socket = io('http://localhost:8000')
     socket.on('connect', ()=>{
       console.log(socket.id)
-
-      socket.on('msgFromServer', (data)=>{
-        console.log('Data:', data)
-      })
-
       socket.emit('msgFromClient', {data: "Its the msg from client"})
+    })
+    socket.on('msgFromServer', (data)=>{
+      console.log('Data:', data)
+    })
+    socket.io.on('reconnect', (data)=>{
+      console.log('reconnect event:', data)
     })
   </script>
 </body>
