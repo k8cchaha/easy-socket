@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h2>Try socket connection with express server and socket io lib</h2>
+  <!-- socket.io.js is added by the socketio server -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    console.log('Ready to start')
+    // console.log(io)
+    const socket = io('http://localhost:8000')
+    socket.on('connect', ()=>{
+      console.log(socket.id)
+
+      socket.on('msgFromServer', (data)=>{
+        console.log('Data:', data)
+      })
+
+      socket.emit('msgFromClient', {data: "Its the msg from client"})
+    })
+  </script>
+</body>
+</html>

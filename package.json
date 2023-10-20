@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/k8cchaha/easy-socket#readme",
   "dependencies": {
+    "socket.io": "^4.7.2",
     "ws": "^8.14.2"
   }
 }
